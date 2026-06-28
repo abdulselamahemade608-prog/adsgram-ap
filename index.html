@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="am">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adsgram Video Ad</title>
+    
+    <!-- የቴሌግራም ሚኒ አፕ ስክሪፕት -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    
+    <!-- የ Adsgram ስክሪፕት -->
+    <script src="https://sad.adsgram.ai/js/sad.min.js"></script>
+    
+    <style>
+        body {
+            background-color: #1c1c1e;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            margin: 0;
+        }
+        .container {
+            padding: 20px;
+        }
+        h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        p {
+            font-size: 16px;
+            color: #d1d1d6;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .btn {
+            background-color: #007aff;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: background-color 0.3s ease;
+        }
+        .btn:active {
+            background-color: #005bb5;
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>ቪዲዮ ማስታወቂያውን አይተው ብር ያግኙ!</h2>
+        <p>ከታች ያለውን ቁልፍ ተጭነው ማስታወቂያውን እስከመጨረሻው (15 ሰከንድ) ይመልከቱ። <br>ሲጨርሱ ብሩ ወዲያውኑ ቦቱ ላይ ይደመርልዎታል።</p>
+        
+        <button class="btn" id="watchAdBtn">📺 ማስታወቂያ እይ</button>
+    </div>
+
+    <script>
+        // 1. የቴሌግራም ዌብ አፕን ማስነሳት
+        const WebApp = window.Telegram.WebApp;
+        WebApp.ready();
+        WebApp.expand(); // ሚኒ አፑን ሙሉ ስክሪን እንዲያደርገው
+
+        // 2. ከ Adsgram የተገኘውን Block ID ማገናኘት
+        // እባክዎ ከታች ያለውን ጽሑፍ በራስዎ Block ID ይተኩ (ምሳሌ: "3344-5566-7788")
+        const AdController = window.Adsgram.init({ blockId: "የአንተ_ADSGRAM_BLOCK_ID_እዚህ_ይግባ" });
+
+        // 3. ቁልፉ ሲጫን ማስታወቂያውን ማሳየት
+        document.getElementById('watchAdBtn').addEventListener('click', () => {
+            
+            // ማስታወቂያው መጫወት ይጀምራል
+            AdController.show().then((result) => {
+                // ተጠቃሚው ማስታወቂያውን ሳይዘጋ እስከመጨረሻው ካየው የሚሰራ ኮድ
+                WebApp.sendData("ad_completed"); // ለቴሌግራም ቦቱ "ad_completed" የሚል ዳታ ይልካል
+                WebApp.close(); // ስራውን ስለጨረሰ ሚኒ አፑን ይዘጋዋል
+                
+            }).catch((error) => {
+                // ተጠቃሚው ማስታወቂያውን አቋርጦ ቢዘጋው ወይም ኢንተርኔት ቢያስቸግር ብር አይከፈለውም
+                alert("❌ ማስታወቂያውን ሙሉ ለሙሉ አላዩም! እባክዎ እንደገና ይሞክሩ።");
+            });
+            
+        });
+    </script>
+</body>
+</html>
